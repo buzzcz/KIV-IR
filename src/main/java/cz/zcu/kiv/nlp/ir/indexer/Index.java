@@ -63,7 +63,7 @@ public class Index implements Indexer, Searcher {
 		for (Document d : documents) {
 			org.apache.lucene.document.Document luceneDocument = new org.apache.lucene.document.Document();
 			luceneDocument.add(new StringField("id", d.getId(), Field.Store.YES));
-			luceneDocument.add(new TextField("date", d.getDate().toString(), Field.Store.YES));
+			luceneDocument.add(new StringField("date", d.getDate().toString(), Field.Store.YES));
 			luceneDocument.add(new TextField("title", d.getTitle(), Field.Store.YES));
 			luceneDocument.add(new TextField("text", d.getText(), Field.Store.YES));
 
@@ -77,8 +77,8 @@ public class Index implements Indexer, Searcher {
 		List<Result> results = new LinkedList<>();
 
 		try (IndexReader reader = DirectoryReader.open(indexDir)) {
-			Query q = new QueryParser("text", analyzer).parse(query);
 			int hitsPerPage = 10;
+			Query q = new QueryParser("text", analyzer).parse(query); // TODO: Klaus - Is "text" correct?
 			IndexSearcher searcher = new IndexSearcher(reader);
 			TopDocs docs = searcher.search(q, hitsPerPage);
 			ScoreDoc[] hits = docs.scoreDocs;
@@ -89,7 +89,7 @@ public class Index implements Indexer, Searcher {
 				org.apache.lucene.document.Document d = searcher.doc(docId);
 				result.setDocumentID(d.get("id"));
 				result.setScore(hit.score);
-//				result.setRank(); FIXME
+//				result.setRank(); FIXME: Klaus - Set value although it seems it's not needed.
 
 				results.add(result);
 			}

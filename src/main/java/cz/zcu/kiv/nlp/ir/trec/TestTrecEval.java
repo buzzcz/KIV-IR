@@ -83,7 +83,7 @@ public class TestTrecEval {
 		List<String> lines = new ArrayList<>();
 
 		for (Topic t : topics) {
-			List<Result> resultHits = index.search(t.getTitle() + " " + t.getDescription());
+			List<Result> resultHits = index.search(t.getTitle() + " " + t.getDescription() + " " + t.getNarrative());
 
 			resultHits.sort(cmp);
 			for (Result r : resultHits) {
