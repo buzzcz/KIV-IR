@@ -7,12 +7,38 @@
     <groupId>groupId</groupId>
     <artifactId>Indexer</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <dependencies>
+
+	<properties>
+		<apache.lucene.version>7.2.1</apache.lucene.version>
+	</properties>
+
+	<dependencies>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${apache.lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>${apache.lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>${apache.lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-demo</artifactId>
+			<version>${apache.lucene.version}</version>
+		</dependency>
     </dependencies>
 
     <build>

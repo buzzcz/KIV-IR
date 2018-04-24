@@ -5,11 +5,11 @@ package cz.zcu.kiv.nlp.ir.trec.data;
  */
 public interface Result {
 
-    String getDocumentID();
+	String getDocumentID();
 
-    float getScore();
+	float getScore();
 
-    int getRank();
+	int getRank();
 
-    String toString(String topic);
+	String toString(String topic);
 }

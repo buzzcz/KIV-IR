@@ -7,52 +7,53 @@ import java.util.Date;
  * Created by Tigi on 8.1.2015.
  */
 public class DocumentNew implements Document, Serializable {
-    String text;
-    String id;
-    String title;
-    Date date;
-    final static long serialVersionUID = -5097715898427114007L;
 
-    @Override
-    public String toString() {
-        return "DocumentNew{" +
-                ", id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", date=" + date +
-                "text='" + text + '\'' +
-                '}';
-    }
+	static final long serialVersionUID = -5097715898427114007L;
 
-    public String getId() {
-        return id;
-    }
+	String text;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	String id;
 
-    public String getText() {
-        return text;
-    }
+	String title;
 
-    public void setText(String text) {
-        this.text = text;
-    }
+	Date date;
 
-    public String getTitle() {
-        return title;
-    }
+	@Override
+	public String toString() {
+		return "DocumentNew{" + ", id='" + id + '\'' + ", title='" + title + '\'' + ", date=" + date + "text='" + text
+				+ '\'' + '}';
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 
-    public Date getDate() {
-        return date;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }

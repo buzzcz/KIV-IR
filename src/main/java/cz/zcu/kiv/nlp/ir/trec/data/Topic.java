@@ -6,60 +6,60 @@ import java.io.Serializable;
  * Created by Tigi on 8.1.2015.
  */
 public class Topic implements Serializable {
-    String narrative;
-    String description;
-    String id;
-    String title;
-    String lang;
 
-    public String getNarrative() {
-        return narrative;
-    }
+	String narrative;
 
-    public void setNarrative(String narrative) {
-        this.narrative = narrative;
-    }
+	String description;
 
-    public String getDescription() {
-        return description;
-    }
+	String id;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	String title;
 
-    public String getId() {
-        return id;
-    }
+	String lang;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getNarrative() {
+		return narrative;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setNarrative(String narrative) {
+		this.narrative = narrative;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getLang() {
-        return lang;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
+	public String getId() {
+		return id;
+	}
 
-    @Override
-    public String toString() {
-        return "Topic{" +
-                "narrative='" + narrative + '\'' +
-                ", description='" + description + '\'' +
-                ", id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", lang='" + lang + '\'' +
-                '}';
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+	@Override
+	public String toString() {
+		return "Topic{" + "narrative='" + narrative + '\'' + ", description='" + description + '\'' + ", id='" + id +
+				'\'' + ", title='" + title + '\'' + ", lang='" + lang + '\'' + '}';
+	}
 }
