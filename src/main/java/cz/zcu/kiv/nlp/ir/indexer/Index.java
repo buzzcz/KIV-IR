@@ -148,7 +148,7 @@ public class Index implements Indexer, Searcher {
 		return results;
 	}
 
-	private List<Result> createResults(Set<Document> docs) {
+	private static List<Result> createResults(Set<Document> docs) {
 		List<Result> results = new LinkedList<>();
 		for (Document hit : docs) {
 			ResultImpl result = new ResultImpl();
@@ -158,10 +158,11 @@ public class Index implements Indexer, Searcher {
 
 			results.add(result);
 		}
+
 		return results;
 	}
 
-	private void removeProhibited(List<IndexDto> prohibited, Set<Document> docs) {
+	private static void removeProhibited(List<IndexDto> prohibited, Set<Document> docs) {
 		for (IndexDto indexDto : prohibited) {
 			if (docs.isEmpty()) {
 				break;
@@ -171,16 +172,16 @@ public class Index implements Indexer, Searcher {
 		}
 	}
 
-	private void addNonrequired(List<IndexDto> nonrequired, Set<Document> docs) {
+	private static void addNonrequired(List<IndexDto> nonrequired, Set<Document> docs) {
 		for (IndexDto indexDto : nonrequired) {
 			docs.addAll(indexDto.getDocs());
 		}
 	}
 
-	private Set<Document> conjunctRequired(List<IndexDto> required) {
+	private static Set<Document> conjunctRequired(List<IndexDto> required) {
 		required.sort(Comparator.comparingInt(o -> o.getDocs().size()));
 		Set<Document> docs = new TreeSet<>(Comparator.comparing(Document::getId));
-		if (required.size() >= 2) {
+		if (required.size() > 1) {
 			IndexDto first = required.get(0);
 			IndexDto second = required.get(1);
 
@@ -199,6 +200,7 @@ public class Index implements Indexer, Searcher {
 		} else if (required.size() == 1) {
 			docs.addAll(required.get(0).getDocs());
 		}
+
 		return docs;
 	}
 

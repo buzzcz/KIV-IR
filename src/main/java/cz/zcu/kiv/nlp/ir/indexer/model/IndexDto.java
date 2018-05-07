@@ -27,7 +27,7 @@ public class IndexDto {
 	}
 
 	public double getIdf() {
-		return allDocsCount / (double) docs.size();
+		return Math.log(allDocsCount / (double) docs.size());
 	}
 
 	public void addDoc(Document document) {
