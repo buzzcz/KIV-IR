@@ -158,10 +158,6 @@ public class Index implements Indexer, Searcher {
 
 			results.add(result);
 		}
-		if (results.size() > 10) {
-			results.sort(Comparator.comparing(Result::getScore).reversed());
-			results = results.subList(0, 10);
-		}
 		return results;
 	}
 
