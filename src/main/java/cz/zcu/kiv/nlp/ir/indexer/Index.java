@@ -36,6 +36,8 @@ public class Index implements Indexer, Searcher {
 
 	private Map<String, IndexDto> index;
 
+	private final String INDEX_NAME = "index.json";
+
 	private Stemmer stemmer;
 
 	private Analyzer queryAnalyzer = new StandardAnalyzer();
@@ -54,28 +56,47 @@ public class Index implements Indexer, Searcher {
 				w.close();
 			}*/
 
-			if (index == null) {
-				index = new HashMap<>();
-			}
-
 			if (stemmer == null) {
 				stemmer = new CzechStemmerLight();
 			}
 
+//			File f = new File(INDEX_NAME);
+//			if (f.exists() && index == null) {
+//				log.info("Loading index from file.");
+//				index = new Gson().fromJson(new FileReader(f), Map.class);
+//			} else if (index == null) {
+			index = new HashMap<>();
+
+			int i = 0;
+			int size = documents.size();
 			for (Document d : documents) {
+				if (i % 1000 == 0) {
+					log.info("Indexing document " + (++i) + " of " + size + ".");
+				} else {
+					i++;
+				}
+
 				String text = d.getDate().toString() + ' ' + d.getTitle() + ' ' + d.getText();
 				String[] tokens = tokenize(text);
 
 
 				for (String token : tokens) {
 					if (index.containsKey(token)) {
-						index.get(token).addDoc(d);
+						index.get(token).addDoc(d, tokens);
 					} else {
-						IndexDto indexDto = new IndexDto(token, d, documents.size());
+						IndexDto indexDto = new IndexDto(token, d, tokens, size);
 						index.put(token, indexDto);
 					}
 				}
 			}
+
+			// TODO: This is not working, too big file. Try to split it into docs and dictionary with only ids in
+			// list.
+//				try (Writer w = new FileWriter(f)) {
+//					log.info("Writing index to file.");
+//					new Gson().toJson(index, w);
+//				}
+//			}
 		} catch (/*IO*/Exception e) {
 			log.error(e);
 		}
@@ -136,11 +157,11 @@ public class Index implements Indexer, Searcher {
 
 			Set<Document> docs = conjunctRequired(required);
 
-			addNonrequired(nonrequired, docs);
-
 			removeProhibited(prohibited, docs);
 
-			results = createResults(docs);
+			addNonrequired(nonrequired, docs);
+
+			results = createResults(docs, q);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -148,15 +169,35 @@ public class Index implements Indexer, Searcher {
 		return results;
 	}
 
-	private static List<Result> createResults(Set<Document> docs) {
+	private List<Result> createResults(Set<Document> docs, Query q) {
 		List<Result> results = new LinkedList<>();
 		for (Document hit : docs) {
 			ResultImpl result = new ResultImpl();
 			result.setDocumentID(hit.getId());
-			result.setScore(1);
-//				result.setRank(); FIXME: Klaus - Set value although it seems it's not needed.
+
+			float score = 0;
+			for (BooleanClause clause : ((BooleanQuery) q).clauses()) {
+				if (!clause.isProhibited()) {
+					String token = tokenize(clause.toString())[0];
+					IndexDto indexDto = index.get(token);
+					if (indexDto != null) {
+						Double tf = indexDto.getTfs().get(hit.getId());
+						if (tf != null) {
+							score += tf * indexDto.getIdf();
+						}
+					}
+				}
+			}
+
+			result.setScore(score);
 
 			results.add(result);
+		}
+
+		results.sort(Comparator.comparing(Result::getScore));
+		int i = 1;
+		for (Result r : results) {
+			((ResultImpl) r).setRank(i++);
 		}
 
 		return results;

@@ -82,7 +82,11 @@ public class TestTrecEval {
 
 		List<String> lines = new ArrayList<>();
 
+		int i = 0;
+		int size = topics.size();
 		for (Topic t : topics) {
+			log.info("Searching topic " + (++i) + " of " + size + ".");
+
 			List<Result> resultHits = index.search(t.getTitle() + " " + t.getDescription() + " " + t.getNarrative());
 
 			resultHits.sort(cmp);
